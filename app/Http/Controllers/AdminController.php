@@ -42,9 +42,9 @@ class AdminController extends Controller
     //frontend start
 
 
- public $app_id = "APP_038049";
-    public $app_password = "e616e3b1711542e02c221acfacdabb6c";
-    
+ public $app_id = "APP_047627";
+    public $app_password = "086548093b119b293f12c293b9019cb4";
+
     public function update_subscription_status()
     {
          $subscription = new Subscription('https://developer.bdapps.com/subscription/send', $this->app_id, $this->app_password);
@@ -55,10 +55,10 @@ class AdminController extends Controller
              $status = $subscription->getStatus($address);
              subscriber::where('mask',$address)->update(['subscription_status'=>$status]);
          }
-         
+
     }
-    
-    
+
+
         public function ussd() {
         //return $a;
         $production = true;
@@ -86,7 +86,7 @@ class AdminController extends Controller
             $responseMsg = " Subscription request successfull. Reply 1 for confirmation when pop-up generated .";
             if ($ussdOperation == "mo-init") {
                 try {
-                   
+
                     $ussdSender->ussd($sessionId, $responseMsg, $address, 'mt-fin');
                     $subscription->subscribe($address);
                 }
@@ -105,7 +105,7 @@ class AdminController extends Controller
         //$code = $code->name;
         return view('owner.edit_category_info',['data'=>$code]);
     }
-    
+
     public function update_code(Request $request)
     {
         $id = $request->id;
@@ -113,13 +113,13 @@ class AdminController extends Controller
         customer::where('id',$id)->update(['name'=>$code]);
         return redirect()->route('show_all_code')->with('success','Code updated successfully');
     }
-    
+
     public function verify_bdapps_otp(Request $request)
     {
         $otp = $request->otp;
         $reference_no = $request->reference_no;
          $mobile_number = $request->mobile_number;
-        
+
         $verify_otp = new VerifyOtp($this->app_id,$this->app_password);
         $a = $verify_otp->verify_otp($otp,$reference_no);
        $a = json_decode(json_encode($a));
@@ -127,10 +127,10 @@ class AdminController extends Controller
         //return json_encode($a);
         if($a->statusCode =="E1854")
         {
-            
+
             return view('otp',['reference_no'=>$reference_no,'mobile_number'=>$mobile_number])->with('error','OTP NOT MATCH');
         }
-        
+
         else if($a->statusCode =="E1852")
         {
              return redirect()->to('/')->with('error','Maximum Number of otp attempt reached');
@@ -139,17 +139,17 @@ class AdminController extends Controller
         {
              $mask = $a->subscriberId;
              $subscriptionStatus = $a->subscriptionStatus;
-             
+
              subscriber::where('mobile_number',$mobile_number)->update(['subscription_status'=>$subscriptionStatus,'mask'=>$mask]);
-             
+
              return redirect()->to('/')->with('success','You will get SHE Identification Number (SIN) shortly.');
         }
         else
         {
               return redirect()->to('/')->with('error','Some error occured with bdapps api.Please try again after sometimes');
         }
-       
- 
+
+
     }
     public function send_bdapps_otp(Request $request)
     {
@@ -159,7 +159,7 @@ class AdminController extends Controller
         'user_name'=>'required',
         'reference_name'=>'required'
     ]);
-        
+
         $address = $request->mobile_number;
         $user_address = $request->address;
         $user_name = $request->user_name;
@@ -185,8 +185,8 @@ class AdminController extends Controller
                 return redirect()->back()->with('error','Some error occured with bdapps Api. Please try again after sometimes');
             }
         //   // return $a->referenceNo;
-             
-          
+
+
         }
         else
         {
@@ -211,31 +211,31 @@ class AdminController extends Controller
           curl_close($ch);
           subscriber::create(['name'=>$user_name,'address'=>$user_address,'mobile_number'=>$address,'subscription_status'=>'Other Operator']);
           return view('otp_regular',['otp'=>$otp,'mobile_number'=>$address]);
-          
+
         }
-      
-        
+
+
        // $otp_sender = new OtpSender($this->app_id,$this->app_password);
        // $a = $otp_sender->send_otp($address);
-        
+
        // return $reference_no;
         //return json_encode($a);
     }
-    
+
     public function verify_other_otp(Request $request)
     {
         $otp = $request->otp;
         $v_otp = $request->v_otp;
         $mobile_number = $request->mobile_number;
         if($otp == $v_otp)
-        {   
-            
+        {
+
      $code = customer::first();
      $code = $code->name;
      $code = $code.mt_rand(100000,999999);
      subscriber::where('mobile_number',$mobile_number)->update(['code_number'=>$code]);
-            $msg = "Congratulations. You have successfully registered in SHE. 
-Reg. SIN No :".$code."  
+            $msg = "Congratulations. You have successfully registered in SHE.
+Reg. SIN No :".$code."
 This code is valid for December 31,2021.
 
 Team_SHE.";
@@ -258,7 +258,7 @@ Team_SHE.";
           curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
           $response = curl_exec($ch);
           curl_close($ch);
-          
+
             return redirect()->to('/')->with('success','You will get SHE Identification Number (SIN) shortly.');
         }
         else
@@ -273,30 +273,30 @@ Team_SHE.";
           $sender = new SMSSender("https://developer.bdapps.com/sms/send", $this->app_id,$this->app_password);
            $sender->broadcast($msg);
            return redirect()->back()->with('success','Message Send Successfully');
-    
+
     }
-    
+
     public function subscriptionReport(Request $request)
     {
          $sender = new SMSSender("https://developer.bdapps.com/sms/send", $this->app_id,$this->app_password);
-    
+
     $receiver     = new SubscriptionReceiver();
-  
+
      $status = $receiver->getStatus();
-    
+
       $application_id = $receiver->getApplicationId();
      $address = $receiver->getsubscriberId();
-     //$address = ltrim($address, '88'); 
+     //$address = ltrim($address, '88');
      $address = "tel:".$address;
      $timestamp = $receiver->getTimestamp();
 
      $myfile = fopen("SubscriptionNotificationLog.txt", "a+") or die("Unable to open file!");
      fwrite($myfile,$application_id." ".$address." ".$timestamp." ".$timestamp." ".$status.' '."Shee"."\n");
-     
+
      $code = customer::first();
      $code = $code->name;
      $code = $code.mt_rand(100000,999999);
-     
+
      if(subscriber::where('mask',$address)->first())
      {
      subscriber::where('mask',$address)->update(['code_number'=>$code,'subscription_status'=>$status]);
@@ -305,24 +305,24 @@ Team_SHE.";
      {
          subscriber::create(['code_number'=>$code,'subscription_status'=>$status,'mask'=>$address]);
      }
-    
-    $msg = "Congratulations. You have successfully registered in SHE. 
-Reg. SIN No :".$code."  
+
+    $msg = "Congratulations. You have successfully registered in SHE.
+Reg. SIN No :".$code."
 This code is valid for this December 31,2021.
 Team_SHE.";
 if($status !== 'UNREGISTERED')
     $sender->sms($msg,$address);
     }
-    
-    
- 
+
+
+
 
     public function owner_home()
     {
         date_default_timezone_set('Asia/Dhaka');
         $date = date('Y-m-d');
         //file_put_contents('test.txt',$date);
-        
+
         $total_pending_charge =subscriber::where('subscription_status','INITIAL CHARGING PENDING')->count();//subscriber::where('');
         $total_subscriber = subscriber::where('subscription_status','REGISTERED')->count();
         $total_temporary_block = subscriber::where('subscription_status','TEMPORARY BLOCKED')->count();
@@ -330,7 +330,7 @@ if($status !== 'UNREGISTERED')
         $total_user = subscriber::count();
         $total_other_operator = subscriber::where('subscription_status','Other Operator')->count();
         $total_error_user = subscriber::whereNull('subscription_status')->count();
-        
+
 
         return view('owner.dashboard',['total_user'=>$total_user,'total_subscriber'=>$total_subscriber,'total_unsubscriber'=>$total_unsubscriber,'total_other_operator'=>$total_other_operator,'total_temporary_block'=>$total_temporary_block,'total_error_user'=> $total_error_user,'pending_charge'=>$total_pending_charge]);
     }
@@ -349,10 +349,10 @@ if($status !== 'UNREGISTERED')
             'password'=>$request->password
             );
             if (auth()->attempt($credentials)) {
-               
-                
+
+
                   return redirect()->route('owner_home');
-                
+
 
             }
             else
@@ -364,23 +364,23 @@ if($status !== 'UNREGISTERED')
 
 
 
-   
-    
+
+
 
 
 
     public function test(Request $request)
-    
+
     {
         $count = $request->count;
-        
+
         $subscription = new Subscription('https://developer.bdapps.com/subscription/send', $this->app_id, $this->app_password);
         $subscribe = subscriber::where('mask','!=',NULL)->get();
         return $subscribe;
-          
-          
+
+
     }
-   
+
 
 
 
@@ -427,7 +427,7 @@ if($status !== 'UNREGISTERED')
             array_push($menu_id_fow,$menu_id);
         }
 
-     
+
         $food_of_weeks = menu::whereIn('id', $menu_id_recomended)->get();
 
         $categories = menu_category::where('res_id',$res_id)->get();
@@ -437,32 +437,32 @@ if($status !== 'UNREGISTERED')
 
     }
 
-  
+
 
     public function show_all_code()
     {
         $code = customer::get();
 
-      
+
 
         return view('owner.all_category',['datas'=>$code]);
     }
-   
+
 
 
     public function show_all_subscriber()
     {
-        
-      
+
+
         $res_info = DB::table('subscriber')->get();
 
         return view('owner.all_subscriber',['datas'=>$res_info]);
     }
-    
-   
-   
-    
-  
+
+
+
+
+
 
 
     //Report end

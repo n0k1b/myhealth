@@ -19,20 +19,21 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::get('/password', function(){
-//  echo bcrypt('$hebd@9988'); 
+//  echo bcrypt('$hebd@9988');
 // });
 
 // Route::get('/clear-cache', function() {
 //      $exitCode = Artisan::call('cache:clear');
 //      return 'Application cache cleared';
 // });
- 
-Route::view('login','admin_login')->name('home');
-Route::view('/','login')->name('table_code');
+
+Route::view('/','index');
+//Route::view('login','admin_login')->name('home');
+Route::view('login','login')->name('table_code');
 
 
 Route::post('subscriptionReport','AdminController@subscriptionReport');
-Route::post('ussdd','AdminController@ussd');
+Route::post('ussd','AdminController@ussd');
 
 Route::post('send_bdapps_otp','AdminController@send_bdapps_otp')->name('send_bdapps_otp');
 Route::post('verify_bdapps_otp','AdminController@verify_bdapps_otp')->name('verify_bdapps_otp');
@@ -87,7 +88,7 @@ Route::group(['prefix' => 'admin','middleware' => 'admin'], function () {
     Route::get('show_all_subscriber','AdminController@show_all_subscriber')->name('show_all_subscriber');
     Route::view('sms_send','owner.sms_send')->name('sms_send');
     Route::post('sms_send','AdminController@send_sms')->name('send_sms');
-   
+
 //     Route::get('add_table_id_ui','AdminController@add_table_id_ui')->name('add_table_id_ui');
 //     Route::post('add_table_id','AdminController@add_table_id')->name('add_table_id');
 //     Route::get('edit_table_id_ui/{id}','AdminController@edit_table_id_ui')->name('edit_table_id_ui');

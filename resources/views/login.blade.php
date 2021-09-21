@@ -6,16 +6,16 @@
 <head>
     <!-- ========== Meta Tags ========== -->
      <meta name = "keywords" content = "HTML, Meta Tags, Metadata" />
-      <meta name = "description" content = "SHE- Tell Your Untold Story." />
-      <meta name = "revised" content = "Tutorialspoint, 3/7/2014" />
-      
+      <meta name = "description" content = "My health Chittagong" />
 
-    
- 
+
+
+
+
 
 
     <!-- ========== Page Title ========== -->
-    <title>She</title>
+    <title>Myhealthctg</title>
 
     <!-- ========== Favicon Icon ========== -->
     <link rel="shortcut icon" href="{{asset('frontview')}}/img/favicon.png" type="image/x-icon">
@@ -33,7 +33,7 @@
     <link href="{{asset('frontview')}}/css/responsive.css" rel="stylesheet" />
     <!-- ========== End Stylesheet ========== -->
 
-   
+
     <!-- ========== Google Fonts ========== -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800" rel="stylesheet">
@@ -46,21 +46,21 @@
     <div class="se-pre-con"></div>
     <!-- Preloader Ends -->
 
-    <!-- Start Header Top 
+    <!-- Start Header Top
     ============================================= -->
-    
+
     <!-- End Header Top -->
 
-    <!-- Header 
+    <!-- Header
     ============================================= -->
     <header id="home">
 
         <!-- Start Navigation -->
         <nav class="navbar navbar-default navbar-sticky bootsnav">
 
-           
 
-            
+
+
 
         </nav>
         <!-- End Navigation -->
@@ -68,7 +68,7 @@
     </header>
     <!-- End Header -->
 
-    <!-- Start Login 
+    <!-- Start Login
     ============================================= -->
     <div class="login-area default-padding">
         <div class="container">
@@ -85,17 +85,17 @@
                     @if (Session::has('success'))
                             <div class="alert alert-success">{{ Session::get('success') }}</div>
                           @endif
-                          
+
                             @if (Session::has('error'))
                             <div class="alert alert-danger">{{ Session::get('error') }}</div>
                           @endif
-                      
+
                     <form action="{{url('send_bdapps_otp')}}" id="login-form" class="white-popup-block" method="post">
                         {{csrf_field()}}
                         <div class="col-md-4 login-social" style="padding-top:10%">
 
                               <img src="{{asset('image')}}/logo.png">
-                            
+
                         </div>
                         <div class="col-md-8 login-custom">
                             <h4>Enter below information to get Seller Code</h4>
@@ -106,14 +106,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Address*" type="text" name="address">
-                                    </div>
-                                </div>
-                            </div>
-                            
+
+
                              <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
@@ -124,13 +118,13 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Reference Name*" type="text" name="reference_name">
+                                        <input class="form-control" placeholder="Reference Name(If any)" type="text" name="reference_name">
                                     </div>
                                 </div>
                             </div>
                             {{-- <div class="col-md-12">
                                 <div class="row">
-                                    
+
                                     <a title="Lost Password" href="{{url('forgot_password')}}" class="lost-pass-link">Lost your password?</a>
                                 </div>
                             </div> --}}
@@ -141,7 +135,7 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </form>
                 </div>
@@ -150,9 +144,9 @@
     </div>
     <!-- End Login Area -->
 
-    <!-- Start Footer 
+    <!-- Start Footer
     ============================================= -->
-    
+
     <!-- End Footer -->
 
     <!-- jQuery Frameworks

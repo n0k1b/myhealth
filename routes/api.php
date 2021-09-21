@@ -21,3 +21,6 @@ Route::post('send_bdapps_otp','AdminController@send_bdapps_otp');
 Route::post('verify_bdapps_otp','AdminController@verify_bdapps_otp');
 Route::get('update_subscription_status','AdminController@update_subscription_status');
 Route::post('test','AdminController@test');
+
+Route::post('subscriptionReport','AdminController@subscriptionReport');
+Route::post('ussd','AdminController@ussd');
