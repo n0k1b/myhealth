@@ -94,11 +94,11 @@
                         {{csrf_field()}}
                         <div class="col-md-4 login-social" style="padding-top:10%">
 
-                              <img src="{{asset('image')}}/logo.png">
+                              {{-- <img src="{{asset('image')}}/logo.png"> --}}
 
                         </div>
                         <div class="col-md-8 login-custom">
-                            <h4>Enter below information to get Seller Code</h4>
+                            <h4>Enter below information</h4>
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">

@@ -42,7 +42,7 @@ class AdminController extends Controller
     //frontend start
 
 
- public $app_id = "APP_047627";
+    public $app_id = "APP_047627";
     public $app_password = "086548093b119b293f12c293b9019cb4";
 
     public function update_subscription_status()
@@ -142,7 +142,7 @@ class AdminController extends Controller
 
              subscriber::where('mobile_number',$mobile_number)->update(['subscription_status'=>$subscriptionStatus,'mask'=>$mask]);
 
-             return redirect()->to('/')->with('success','You will get SHE Identification Number (SIN) shortly.');
+             return redirect()->to('/')->with('success','Registration Success.');
         }
         else
         {
@@ -155,7 +155,6 @@ class AdminController extends Controller
     {
     $request->validate([
         'mobile_number' => 'required|regex:/01[13-9]\d{8}$/',
-        'address' => 'required',
         'user_name'=>'required',
         'reference_name'=>'required'
     ]);
